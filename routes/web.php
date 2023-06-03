@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\PlanController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +18,20 @@ use Inertia\Inertia;
 |
 */
 
+// Plans
 Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
 
+// Paypal
+Route::prefix('subscribe')
+    ->name('subscribe.')
+    ->group(function () {
+        Route::get('', [SubscriptionController::class, 'show'])->name('show'); // suscribe.show
+        Route::post('', [SubscriptionController::class, 'store'])->name('store');
+        Route::get('appproval', [SubscriptionController::class, 'appproval'])->name('appproval');
+        Route::get('cancelled', [SubscriptionController::class, 'cancelled'])->name('cancelled');
+});
+
+// Inertia
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

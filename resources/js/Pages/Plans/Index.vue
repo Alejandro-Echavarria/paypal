@@ -2,6 +2,12 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/Containers/Container.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { ref } from 'vue';
+
+const props = defineProps({
+    activeSubscriptions: String
+});
 </script>
 
 <template>
@@ -13,12 +19,15 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
         </template>
 
         <Container>
-            <PrimaryButton>
+            <template v-if="activeSubscriptions">
+                <SecondaryButton>
+                    Cancel Subscription
+                </SecondaryButton>
+            </template>
+
+            <PrimaryButton v-else>
                 Subscribe
             </PrimaryButton>
-            <pre>
-                {{ $page.props }}
-            </pre>
         </Container>
     </AppLayout>
 </template>
